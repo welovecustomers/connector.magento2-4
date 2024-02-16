@@ -99,12 +99,23 @@ class CouponObserver implements ObserverInterface
                 if (!$coupon->getRuleId()) {
                     $offerResponse = $this->offerApiService->findOfferByCode($websiteId, $couponCode);
                     if ($offerResponse) {
+
+                        // fix code linked to a contact
+                        $isContactCode = false;
+                        if (strtolower($offerResponse['offerType']) == 'contact'){
+                            $isContactCode = true;
+                            // overwrite offerType to slave offer
+                            $offerResponse['offerType'] = 'f';
+                        }
+
                         $offerType = strtolower($offerResponse['offerType']) == 'f' ? 'fOffer' : 'pOffer';
                         if (!isset($offerResponse[$offerType])) {
                             return;
                         }
 
                         $offer = $offerResponse[$offerType];
+                        $offer['isContactCode'] = $isContactCode;
+
                         $this->createCouponFromOfferService->execute($offer, $couponCode);
                     }
                 } else {

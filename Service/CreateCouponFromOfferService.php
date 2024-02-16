@@ -50,6 +50,12 @@ class CreateCouponFromOfferService
     public function execute(array $offer, $couponCode): void
     {
         $rule = $this->ruleFactory->create();
+
+        // fix code linked to a contact
+        $uses_per_coupon = 1;
+        if (isset($offer['isContactCode']) && $offer['isContactCode'] == true) $uses_per_coupon = 1000;
+
+
         $rule->loadPost([
             'rule_id' => null,
             'name' => $offer['title'],
@@ -57,7 +63,7 @@ class CreateCouponFromOfferService
             'from_date' => $offer['dateFrom'],
             'to_date' => $offer['dateTo'],
             'uses_per_customer' => 1,
-            'uses_per_coupon' => 1,
+            'uses_per_coupon' => $uses_per_coupon,
             'is_active' => '1',
             'stop_rules_processing' => '0',
             'is_advanced' => '1',

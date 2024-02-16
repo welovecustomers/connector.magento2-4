@@ -123,7 +123,7 @@ class Reports extends Template
     public function getNpsScore()
     {
         $stats = $this->getStats();
-        return $stats['npsScore'] ?? '-';
+        return $stats['nps']['score'] ?? '-';
     }
 
     /**

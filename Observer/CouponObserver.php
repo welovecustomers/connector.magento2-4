@@ -102,7 +102,7 @@ class CouponObserver implements ObserverInterface
 
                         // fix code linked to a contact
                         $isContactCode = false;
-                        if (strtolower($offerResponse['offerType']) == 'contact'){
+                        if (strtolower($offerResponse['offerType']) == 'contact') {
                             $isContactCode = true;
                             // overwrite offerType to slave offer
                             $offerResponse['offerType'] = 'f';

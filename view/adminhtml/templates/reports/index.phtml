@@ -1,0 +1,102 @@
+<?php
+/** @var $block \WeLoveCustomers\Connector\Block\Adminhtml\Reports */
+?>
+<?php if (!$this->getWebsiteId()) : ?>
+    <strong>Please select a store</strong>
+<?php
+    else :
+?>
+    <section class="dashboard-advanced-reports" data-index="dashboard-advanced-reports">
+        <div class="dashboard-advanced-reports-description">
+            <header class="dashboard-advanced-reports-title">
+                <?php echo __('Reporting'); ?>
+            </header>
+            <div class="dashboard-advanced-reports-content">
+                <?php echo __('Find more information on our website WeLoveCustomers'); ?>
+            </div>
+        </div>
+        <div class="dashboard-advanced-reports-actions">
+            <a href="<?= $block->getDashboardUrl() ?>" target="_blank" class="action action-advanced-reports"
+               data-index="analytics-service-link" title="Go to Advanced Reporting">
+                <span>
+                    <?php echo __('Go to Advanced Reporting'); ?>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <?php if ($block->isConfigValid()) : ?>
+        <div class="dashboard-container row">
+            <div class="dashboard-secondary col-m-4">
+                <div class="dashboard-item dashboard-item-primary">
+                    <div class="dashboard-item-title">
+                        <?php echo __('Reward offer'); ?> :
+                    </div>
+                    <div class="dashboard-item-content">
+                        <strong class="offer-amount">
+                            <span class="price"><?php echo $block->getMasterInfo() ?></span>
+                        </strong>
+                    </div>
+                </div>
+                <div class="dashboard-item dashboard-item-primary">
+                    <div class="dashboard-item-title">
+                        <?php echo __('Welcome offer'); ?> :
+                    </div>
+                    <div class="dashboard-item-content">
+                        <strong class="offer-amount">
+                            <span class="price"><?php echo $block->getSlaveInfo() ?></span><span class="dashboard-sales-decimals"></span>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-main col-m-8">
+                <div class="dashboard-totals" id="dashboard_diagram_totals">
+                    <ul class="dashboard-totals-list">
+                        <li class="dashboard-totals-item" style="width:25%">
+                        <span class="dashboard-totals-label">
+                            <?php echo __('Invitation'); ?> :
+                        </span>
+                            <strong class="dashboard-totals-value">
+                            <span class="price <?php echo $block->getSponsoringClass($block->getInvitationNumber()); ?>">
+                                <?php echo $block->getInvitationNumber();?>
+                            </span>
+                            </strong>
+                        </li>
+                        <li class="dashboard-totals-item" style="width:25%">
+                        <span class="dashboard-totals-label">
+                            <?php echo __('Referrer'); ?> :
+                        </span>
+                            <strong class="dashboard-totals-value">
+                            <span class="price <?php echo $block->getSponsoringClass($block->getFatherNumber()); ?>">
+                                <?php echo $block->getFatherNumber();?>
+                            </span>
+                            </strong>
+                        </li>
+                        <li class="dashboard-totals-item" style="width:25%">
+                        <span class="dashboard-totals-label">
+                            <?php echo __('Referee'); ?> :
+                        </span>
+                            <strong class="dashboard-totals-value">
+                            <span class="price <?php echo $block->getSponsoringClass($block->getSonNumber()); ?>">
+                                <?php echo $block->getSonNumber();?>
+                            </span>
+                            </strong>
+                        </li>
+                        <li class="dashboard-totals-item" style="width:25%">
+                        <span class="dashboard-totals-label">
+                            <?php echo __('NPS Score'); ?> :
+                        </span>
+                            <strong class="dashboard-totals-value">
+                            <span class="price <?php echo $block->getNPSClass(); ?>">
+                                <?php echo $block->getNPSScore();?>
+                            </span>
+                            </strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <?php else: ?>
+        <p><?php echo __('Your module is not configured yet'); ?></p>
+    <?php endif; ?>
+<?php endif; ?>

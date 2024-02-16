@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            id="WeLoveCustomers_Connector::report"
+            title="WeLoveCustomers"
+            module="WeLoveCustomers_Connector"
+            resource="WeLoveCustomers_Connector::report"
+            sortOrder="30"
+            parent="Magento_Reports::report"
+        />
+        <add
+            id="WeLoveCustomers_Connector::report_dashboard"
+            title="Report Dashboard"
+            module="WeLoveCustomers_Connector"
+            sortOrder="30"
+            resource="WeLoveCustomers_Connector::report_sponsorship"
+            action="welovecustomers_connector/reports"
+            parent="WeLoveCustomers_Connector::report"
+        />
+    </menu>
+</config>

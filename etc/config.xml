@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <welovecustomersconnector>
+            <general>
+                <enabled>0</enabled>
+                <api_url>https://pixel.welovecustomers.fr/api/</api_url>
+                <order_total_field>grand_total</order_total_field>
+                <order_identifier_field>entity_id</order_identifier_field>
+                <sync_customer>0</sync_customer>
+            </general>
+        </welovecustomersconnector>
+    </default>
+</config>

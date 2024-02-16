@@ -1,0 +1,18 @@
+{
+    "name": "welovecustomers/module-connector",
+    "description": "WeLoveCustomers Connector",
+    "type": "magento2-module",
+    "version": "2.0.0",
+    "license": "proprietary",
+    "require": {
+        "magento/framework": ">=103.0.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "WeLoveCustomers\\Connector\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="welovecustomers" translate="label" sortOrder="310">
+            <label>WeLoveCustomers</label>
+        </tab>
+        <section id="welovecustomersconnector" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>WeLoveCustomers</label>
+            <tab>welovecustomers</tab>
+            <resource>WeLoveCustomers_Connector::configuration</resource>
+            <group id="info" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+                <frontend_model>WeLoveCustomers\Connector\Block\Adminhtml\System\Config\Info</frontend_model>
+            </group>
+            <group id="setup" translate="label comment" type="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Setup</label>
+                <field id="description" translate="label" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <comment>We Love Customers provides an easy-to-use and powerful referral program platform for VSB, SMB and e-merchants.</comment>
+                </field>
+                <field id="create_account" translate="label" type="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeLoveCustomers\Connector\Block\Adminhtml\System\Config\CreateAccount</frontend_model>
+                </field>
+                <field id="version" translate="label" type="label" sortOrder="30" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <frontend_model>WeLoveCustomers\Connector\Block\Adminhtml\System\Config\Version</frontend_model>
+                </field>
+            </group>
+            <group id="general" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="0" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>API URL</label>
+                </field>
+                <field id="api_key" translate="label" type="text" sortOrder="30" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>API key</label>
+                    <depends>
+                        <field id="welovecustomersconnector/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="api_glue" translate="label" type="text" sortOrder="40" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>API Glue</label>
+                    <depends>
+                        <field id="welovecustomersconnector/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="order_total_field" translate="label" type="select" sortOrder="50" showInDefault="0" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Order Total Field</label>
+                    <source_model>WeLoveCustomers\Connector\Model\System\Config\Source\OrderTotalField</source_model>
+                    <depends>
+                        <field id="welovecustomersconnector/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="order_identifier_field" translate="label" type="select" sortOrder="60" showInDefault="0" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Order Identifier Field</label>
+                    <source_model>WeLoveCustomers\Connector\Model\System\Config\Source\OrderIdentifierField</source_model>
+                    <depends>
+                        <field id="welovecustomersconnector/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="sync_customer" translate="label" type="select" sortOrder="70" showInDefault="0" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Sync Customer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="welovecustomersconnector/general/enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <container name="before.body.end">
+            <block class="WeLoveCustomers\Connector\Block\Checkout\Onepage\Success\Tag" name="checkout.script" template="WeLoveCustomers_Connector::checkout/onepage/success/tag.phtml" after="-" cacheable="false">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">WeLoveCustomers\Connector\ViewModel\Checkout\Onepage\Success\TagViewModel</argument>
+                </arguments>
+            </block>
+        </container>
+    </body>
+</page>

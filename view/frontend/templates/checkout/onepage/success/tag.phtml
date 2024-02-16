@@ -1,0 +1,24 @@
+<?php
+/** @var $block \WeLoveCustomers\Connector\Block\Checkout\Onepage\Success\Tag */
+/** @var \WeLoveCustomers\Connector\ViewModel\Checkout\Onepage\Success\TagViewModel $viewModel */
+$viewModel = $block->getViewModel();
+?>
+<?php if ($viewModel->isEnable()) : ?>
+    <?php $orderData = $viewModel->getWlcPurchaseData(); ?>
+    <ins class="wlc-purchase"
+        <?php foreach ($orderData as $key => $value) : ?>
+            <?= $key; ?>="<?= $value; ?>"
+        <?php endforeach; ?>
+    >
+    </ins>
+    <script>
+        (function(l,o,v,e){
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');
+            r.async=1;
+            r.src=v+e;
+            a.appendChild(r);
+        })(window,document,'//dj8z0bra0q3sp.cloudfront.net','/js/referral/referral-purchase.js'
+        );
+    </script>
+<?php endif; ?>

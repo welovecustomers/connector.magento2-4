@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace WeLoveCustomers\Connector\Observer;
+namespace WeLoveCustomers\Connector\Plugin\Quote\Model;
 
-use Magento\Framework\Event\ObserverInterface;
 use WeLoveCustomers\Connector\Helper\Data as WlcHelper;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\SalesRule\Api\Data\CouponInterface;
@@ -12,9 +11,10 @@ use Magento\SalesRule\Model\RuleFactory;
 use Magento\SalesRule\Api\RuleRepositoryInterface;
 use WeLoveCustomers\Connector\Service\CreateCouponFromOfferService;
 use WeLoveCustomers\Connector\Service\Api\OfferApiService;
-use Magento\Framework\Event\Observer;
+use Magento\Quote\Model\CouponManagement;
 
-class CouponObserver implements ObserverInterface
+
+class CouponManagementPlugin
 {
     /**
      * @var WlcHelper
@@ -79,10 +79,12 @@ class CouponObserver implements ObserverInterface
     }
 
     /**
-     * @param Observer $observer
+     * @param CouponManagement $couponManagement
+     * @param $cartId
+     * @param $couponCode
      * @return void
      */
-    public function execute(Observer $observer): void
+    public function beforeSet(CouponManagement $couponManagement, $cartId, $couponCode)
     {
         try {
             $websiteId = $this->storeManager->getWebsite()->getId();
@@ -91,47 +93,44 @@ class CouponObserver implements ObserverInterface
                 return;
             }
 
-            $controller = $observer->getControllerAction();
-            $couponCode = $controller->getRequest()->getParam('coupon_code', false);
+            $coupon = $this->coupon->loadByCode($couponCode);
+            if (!$coupon->getRuleId()) {
+                $offerResponse = $this->offerApiService->findOfferByCode($websiteId, $couponCode);
+                if ($offerResponse) {
 
-            if ($couponCode) {
-                $coupon = $this->coupon->loadByCode($couponCode);
-                if (!$coupon->getRuleId()) {
-                    $offerResponse = $this->offerApiService->findOfferByCode($websiteId, $couponCode);
-                    if ($offerResponse) {
-
-                        // fix code linked to a contact
-                        $isContactCode = false;
-                        if (strtolower($offerResponse['offerType']) == 'contact') {
-                            $isContactCode = true;
-                            // overwrite offerType to slave offer
-                            $offerResponse['offerType'] = 'f';
-                        }
-
-                        $offerType = strtolower($offerResponse['offerType']) == 'f' ? 'fOffer' : 'pOffer';
-                        if (!isset($offerResponse[$offerType])) {
-                            return;
-                        }
-
-                        $offer = $offerResponse[$offerType];
-                        $offer['isContactCode'] = $isContactCode;
-
-                        $this->createCouponFromOfferService->execute($offer, $couponCode);
+                    // fix code linked to a contact
+                    $isContactCode = false;
+                    if (strtolower($offerResponse['offerType']) == 'contact') {
+                        $isContactCode = true;
+                        // overwrite offerType to slave offer
+                        $offerResponse['offerType'] = 'f';
                     }
-                } else {
-                    $ruleId = $coupon->getRuleId();
-                    $rule = $this->ruleFactory->create();
-                    $rule->load($ruleId);
-                    if ($rule->getFromWlc()) {
-                        $offerResponse = $this->offerApiService->findOfferByCode($websiteId, $couponCode);
-                        if (!$offerResponse) {
-                            $this->ruleRepository->deleteById($ruleId);
-                        }
+
+                    $offerType = strtolower($offerResponse['offerType']) == 'f' ? 'fOffer' : 'pOffer';
+                    if (!isset($offerResponse[$offerType])) {
+                        return;
+                    }
+
+                    $offer = $offerResponse[$offerType];
+                    $offer['isContactCode'] = $isContactCode;
+
+                    $this->createCouponFromOfferService->execute($offer, $couponCode);
+                }
+            } else {
+                $ruleId = $coupon->getRuleId();
+                $rule = $this->ruleFactory->create();
+                $rule->load($ruleId);
+                if ($rule->getFromWlc()) {
+                    $offerResponse = $this->offerApiService->findOfferByCode($websiteId, $couponCode);
+                    if (!$offerResponse) {
+                        $this->ruleRepository->deleteById($ruleId);
                     }
                 }
             }
         } catch (\Exception $e) {
             return;
         }
+
+        return null;
     }
 }

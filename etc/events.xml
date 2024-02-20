@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="controller_action_predispatch_checkout_cart_couponPost">
-        <observer name="wlc_coupon_observer" instance="WeLoveCustomers\Connector\Observer\CouponObserver"/>
-    </event>
     <event name="sales_order_save_after">
         <observer name="wlc_order_observer" instance="WeLoveCustomers\Connector\Observer\OrderObserver"/>
     </event>
